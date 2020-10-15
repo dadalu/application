@@ -1,5 +1,6 @@
 package com.demo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +22,10 @@ public class BooleanDemo {
         List subList9 = list.subList(0,9);
         List subList10 = list.subList(0,10);
         System.out.println("////");
+        long l = 355;
+        Double a=null;
+        System.out.println(Integer.valueOf(""));
+        /*double b = new BigDecimal(a).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        System.out.println(b);*/
     }
 }
