@@ -5,7 +5,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms.*;
 
 public class JmsProduceTopic {
-    public static final String ACTIVEMQ_URL = "tcp://localhost:61616";
+    public static final String ACTIVEMQ_URL = "tcp://192.200.125.116:61616";
     public static final String TOPIC_NAME ="sso.notify.risk";
 
 
@@ -25,12 +25,12 @@ public class JmsProduceTopic {
         //6、使用消息生产者生产3条消息发送到MQ的队列里面
             //7、创建消息
             TextMessage textMessage = session.createTextMessage("{\"loginName\":\"xiaoming\",\"userName\":\"小明\",\"password\":1234,\"type\":\"ADD\",\"topic\":\"sso.notify.risk\"}");
-            TextMessage textMessage1 = session.createTextMessage("{\"loginName\":\"xiaoming\",\"userName\":\"da小明\",\"password\":1234,\"type\":\"MODIFY\",\"topic\":\"sso.notify.risk\"}");
+            TextMessage textMessage1 = session.createTextMessage("{\"loginName\":\"xiaoming\",\"userName\":\"小明\",\"password\":1234,\"type\":\"MODIFY\",\"topic\":\"sso.notify.risk\"}");
             TextMessage textMessage2 = session.createTextMessage("{\"loginName\":\"xiaoming\",\"userName\":\"小明\",\"password\":1234,\"type\":\"DELETE\",\"topic\":\"sso.notify.risk\"}");
             //8、通过messageProducer发送给mq
-            messageProducer.send(textMessage);
-            //messageProducer.send(textMessage1);
-            messageProducer.send(textMessage2);
+        //messageProducer.send(textMessage);
+            messageProducer.send(textMessage1);
+            //messageProducer.send(textMessage2);
 
 
 
