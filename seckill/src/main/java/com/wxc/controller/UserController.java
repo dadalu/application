@@ -7,6 +7,7 @@ import com.wxc.error.EmBuinessError;
 import com.wxc.response.CommonReturnType;
 import com.wxc.service.UserService;
 import com.wxc.service.model.UserModel;
+import com.wxc.util.RedisUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,10 @@ import static com.wxc.controller.BaseController.CONTENT_TYPE_FORMED;
 public class UserController extends BaseController{
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private RedisUtil redisUtil;
     //用户注册接口
     @RequestMapping(value = "/register",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
@@ -37,7 +41,9 @@ public class UserController extends BaseController{
                                      @RequestParam(name = "gender") Integer gender,
                                      @RequestParam(name = "age") Integer age,
                                      @RequestParam(name = "password") String password) throws UnsupportedEncodingException, NoSuchAlgorithmException, BuinessException {
-        String inSessionOptcode = (String)httpServletRequest.getSession().getAttribute(telphone);
+        //String inSessionOptcode = (String)request.getSession().getAttribute(telphone);
+        String inSessionOptcode = (String)redisUtil.get(telphone);
+        System.out.println(request.getSession().getId());
         if(!StringUtils.equals(inSessionOptcode,otpCode)){
             throw new BuinessException(EmBuinessError.PARAMETER_VALIDATION_ERROR,"验证码错误");
         }
@@ -67,7 +73,9 @@ public class UserController extends BaseController{
         int randomInt = random.nextInt(99999);
         randomInt+=10000;
         String otpCode = String.valueOf(randomInt);
-        httpServletRequest.getSession().setAttribute(telphone, otpCode);
+        System.out.println(request.getSession().getId());
+        redisUtil.set(telphone,otpCode);
+        //request.getSession().setAttribute(telphone, otpCode);
         System.out.println("telpone:"+telphone+"&otpCode:"+otpCode);
         return CommonReturnType.create(null);
     }
@@ -75,11 +83,11 @@ public class UserController extends BaseController{
     @RequestMapping(value = "/login",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType login(HttpServletRequest httpServletRequest,@RequestParam("telphone") String telphone,
-                                  @RequestParam("password") String password) throws BuinessException {
+                                  @RequestParam("password") String password) throws BuinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         if(StringUtils.isEmpty(telphone)){
             throw new BuinessException(EmBuinessError.PARAMETER_VALIDATION_ERROR);
         }
-        UserModel userModel = userService.validateLogin(telphone,password);
+        UserModel userModel = userService.validateLogin(telphone,this.encodeByMd5(password));
         httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
         return CommonReturnType.create(null);

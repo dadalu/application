@@ -29,21 +29,12 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="user_info"  domainObjectName="User" enableCountByExample="false"
-        enableUpdateByExample="false" enableDeleteByExample="false"
-        enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="user_password"  domainObjectName="UserPassword" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="promo" domainObjectName="Promo" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"></table>
-        <table tableName="item" domainObjectName="Item" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"></table>
-        <table tableName="item_stock" domainObjectName="ItemStock" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"></table>
-        <table tableName="order_info" domainObjectName="Order" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"></table>
-        <table tableName="sequence_info" domainObjectName="Sequence" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"></table>
+        <table tableName="user_info"  domainObjectName="User" ></table>
+        <table tableName="user_password"  domainObjectName="UserPassword" ></table>
+        <table tableName="promo" domainObjectName="Promo" ></table>
+        <table tableName="item" domainObjectName="Item" ></table>
+        <table tableName="item_stock" domainObjectName="ItemStock" ></table>
+        <table tableName="order_info" domainObjectName="Order" ></table>
+        <table tableName="sequence_info" domainObjectName="Sequence" ></table>
     </context>
 </generatorConfiguration>
