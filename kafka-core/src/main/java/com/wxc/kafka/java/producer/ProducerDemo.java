@@ -37,12 +37,12 @@ public class ProducerDemo {
         Producer<String, RealtimeMessage> producer = new KafkaProducer<>(props);
         // 发送业务消息
         // 读取文件 读取内存数据库 读socket端口
-        for (int i = 1; i <= 10000000; i++) {
-            try {
+        for (int i = 1; i <= 20000000; i++) {
+            /*try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
             RealtimeMessage message = new RealtimeMessage();
             String pre = i%2==0?"苏E":"沪C";
             message.setLicensePrefix(pre);
@@ -73,7 +73,7 @@ public class ProducerDemo {
             Long id = new Random().nextLong();
             System.out.println(id);
             message.setId(id.toString());
-            producer.send(new ProducerRecord("realtimeInfo-dev247",
+            producer.send(new ProducerRecord("realtimeInfo-247",
                     JSON.toJSON(message).toString()));
             //Thread.sleep(5);
         }

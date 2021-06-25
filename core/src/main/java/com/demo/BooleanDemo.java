@@ -1,31 +1,52 @@
 package com.demo;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class BooleanDemo {
     public static void main(String[] args) {
-        List list = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            list.add(i);
-        }
-        List subList = list.subList(0,0);
-        List subList1 = list.subList(0,1);
-        List subList2 = list.subList(0,2);
-        List subList3 = list.subList(0,3);
-        List subList4 = list.subList(0,4);
-        List subList5= list.subList(0,5);
-        List subList6 = list.subList(0,6);
-        List subList7 = list.subList(0,7);
-        List subList8 = list.subList(0,8);
-        List subList9 = list.subList(0,9);
-        List subList10 = list.subList(0,10);
-        System.out.println("////");
-        long l = 355;
-        Double a=null;
-        System.out.println(Integer.valueOf(""));
-        /*double b = new BigDecimal(a).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        System.out.println(b);*/
+        Calendar c = Calendar.getInstance();
+        c.set(2021,01,25,14,15,25);
+        System.out.println(c.getTimeInMillis());
     }
+    public static byte[] compress(String str) {
+        if (str == null || str.length() == 0) {
+            return null;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        GZIPOutputStream gzip;
+        try {
+            gzip = new GZIPOutputStream(out);
+            gzip.write(str.getBytes());
+            gzip.close();
+        } catch ( Exception e) {
+            e.printStackTrace();
+        }
+        return out.toByteArray();
+    }
+    public static String uncompress(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        try {
+            GZIPInputStream ungzip = new GZIPInputStream(in);
+            byte[] buffer = new byte[256];
+            int n;
+            while ((n = ungzip.read(buffer)) >= 0) {
+                out.write(buffer, 0, n);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return out.toString();
+    }
+
 }

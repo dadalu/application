@@ -1,5 +1,8 @@
 package com.demo;
 
+import java.util.Map;
+import java.util.concurrent.*;
+
 public class TestDemo {
     /*v1.PROVINCEZIPAREA provinceziparea,
     v1.ID_OWNER idOwner,
@@ -37,4 +40,27 @@ public class TestDemo {
     v2.UPDATETIME UPDATETIME,
     v2.LOG_CHG_TIME LOG_CHG_TIME,
     v2.ID_ROW_SEQ_NO ID_ROW_SEQ_NO*/
+    public static void main(String[] args) {
+        ThreadLocal threadLocal = new ThreadLocal();
+        Map map = new ConcurrentHashMap<>();
+        map.put("1", 1);
+        map.put("2", 2);
+        map.put("3", 3);
+        map.put("4", 4);
+        map.put("5", 5);
+        map.put("6", 6);
+        map.put("7", 7);
+        threadLocal.set(map);
+        Executor executor = new ThreadPoolExecutor(8,16,60L, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+        for (int i = 0; i < 10; i++) {
+            executor.execute(()->{
+                threadLocal.set("1234");
+                threadLocal.set(map);
+                Map re = (Map)threadLocal.get();
+                re.remove("1");
+                System.out.println(Thread.currentThread().toString()+threadLocal.get());
+            });
+        }
+        System.out.println(Thread.currentThread().toString()+threadLocal.get());
+    }
 }
